@@ -32,10 +32,25 @@ class SpendingOverviewViewModel(
                 }
 
                 is OnDateChanged -> {
-
+                    val newDate = state.dateList[action.newDate]
+                    viewModelScope.launch {
+                        state = state.copy(
+                            selectedDate = newDate,
+                            spendingList = getSpendingListByDate(newDate),
+                        )
+                    }
                 }
 
-                is OnDeleteSpending -> {}
+                is OnDeleteSpending -> {
+                    viewModelScope.launch {
+                        spendingDataSource.deleteSpending(action.spendingId)
+                        state = state.copy(
+                            spendingList = getSpendingListByDate(state.selectedDate),
+                            dateList = spendingDataSource.getAllDates(),
+                            balance = coreRepository.getBalance() - spendingDataSource.getSpendBalance()
+                        )
+                    }
+                }
             }
         }
     }
@@ -47,7 +62,7 @@ class SpendingOverviewViewModel(
                 spendingList = getSpendingListByDate(allDates.lastOrNull() ?: ZonedDateTime.now()),
                 balance = coreRepository.getBalance() - spendingDataSource.getSpendBalance(),
                 selectedDate = allDates.lastOrNull() ?: ZonedDateTime.now(),
-                datesList = allDates.reversed()
+                dateList = allDates.reversed()
             )
         }
     }
