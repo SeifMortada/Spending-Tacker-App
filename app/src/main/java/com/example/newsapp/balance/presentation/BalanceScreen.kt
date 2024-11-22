@@ -82,7 +82,7 @@ fun BalanceScreenCoreScreen(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
-            Spacer(modifier = Modifier.height(62.dp))
+            Spacer(modifier = Modifier.height(70.dp))
             Text(
                 text = "$${state.balance}",
                 modifier = Modifier
