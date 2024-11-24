@@ -6,5 +6,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val spendingOverviewModule = module {
+
+
     viewModel { SpendingOverviewViewModel(spendingDataSource = get(), coreRepository = get()) }
 }

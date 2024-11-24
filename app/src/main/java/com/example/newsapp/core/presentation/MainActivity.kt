@@ -17,6 +17,8 @@ import com.example.newsapp.balance.presentation.BalanceScreenCore
 import com.example.newsapp.core.presentation.theme.SpendingTrackerAppTheme
 import com.example.newsapp.core.presentation.util.Background
 import com.example.newsapp.core.presentation.util.Screen
+import com.example.newsapp.spending_details.presentation.SpendingDetailsScreen
+import com.example.newsapp.spending_details.presentation.SpendingDetailsScreenCore
 import com.example.newsapp.spending_overview.presentation.SpendingOverviewScreenCore
 
 class MainActivity : ComponentActivity() {
@@ -40,29 +42,25 @@ class MainActivity : ComponentActivity() {
             startDestination = Screen.SPENDING_OVERVIEW.name
         ) {
             composable(route = Screen.SPENDING_OVERVIEW.name) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    SpendingOverviewScreenCore(
-                        onBalanceClick = { navController.navigate(Screen.BALANCE.name) },
-                        onAddSpendingClick = {
-                            navController.navigate(Screen.SPENDING_DETAILS.name)
-                        }
-                    )
-                }
+                SpendingOverviewScreenCore(
+                    onBalanceClick = { navController.navigate(Screen.BALANCE.name) },
+                    onAddSpendingClick = {
+                        navController.navigate(Screen.SPENDING_DETAILS.name)
+                    }
+                )
             }
             composable(route = Screen.SPENDING_DETAILS.name) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = "Spending Detail")
-                }
+                SpendingDetailsScreenCore(
+                    onSaveSpending = { navController.popBackStack() }
+                )
+
             }
             composable(route = Screen.BALANCE.name) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    BalanceScreenCore(
-                        onSaveClick = {
-                            navController.popBackStack()
-                        }
-                    )
-
-                }
+                BalanceScreenCore(
+                    onSaveClick = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
 
